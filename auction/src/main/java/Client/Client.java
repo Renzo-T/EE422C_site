@@ -1,5 +1,7 @@
 package Client;
 
+import Server.AccountCreation;
+import Server.Product;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -26,7 +28,7 @@ class Client {
 
     private void setUpNetworking() throws Exception {
         @SuppressWarnings("resource")
-        Socket socket = new Socket(host, 4242);
+        Socket socket = new Socket(host, 4445);
         System.out.println("Connecting to... " + socket);
         fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         toServer = new PrintWriter(socket.getOutputStream());
@@ -52,10 +54,24 @@ class Client {
                 while (true) {
                     String input = consoleInput.nextLine();
                     String[] variables = input.split(",");
-                    Message request = new Message(variables[0], variables[1], Integer.valueOf(variables[2]));
+                    for(int i = 0; i < variables.length; i++){
+                        variables[i] = variables[i].trim();
+                    }
                     GsonBuilder builder = new GsonBuilder();
                     Gson gson = builder.create();
-                    sendToServer(gson.toJson(request));
+                    sendToServer(gson.toJson(variables));
+//                    if (variables[0].equals("create")) {
+//                        AccountCreation request = new AccountCreation(variables[1], variables[2], variables[3]);
+//                        GsonBuilder builder = new GsonBuilder();
+//                        Gson gson = builder.create();
+//                        sendToServer(gson.toJson(request));
+//                    }
+//                    else {
+//                        Message request = new Message(variables[0], variables[1], Integer.valueOf(variables[2]));
+//                        GsonBuilder builder = new GsonBuilder();
+//                        Gson gson = builder.create();
+//                        sendToServer(gson.toJson(request));
+//                    }
                 }
             }
         });

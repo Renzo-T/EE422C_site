@@ -2,15 +2,13 @@ package Server;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
 
 public class Product {
     //image?
-
+    public int productNumber;
+    public static int counter;
     private String productName;
     private Double currentBid;
     private Double buyItNow;
@@ -36,7 +34,7 @@ public class Product {
         long hours = diff.toHours()-24*diff.toDays();
         long minutes = diff.toMinutes()-60*diff.toHours();
         long seconds = diff.getSeconds()-60*diff.toMinutes();
-        return Long.toString(days) + "days " + Long.toString(hours) + "hours " + Long.toString(minutes) + "minutes " + Long.toString(seconds) + "seconds";
+        return Long.toString(days) + " days, " + Long.toString(hours) + " hours, " + Long.toString(minutes) + " minutes, " + Long.toString(seconds) + " seconds";
     }
 
     public Product(String productName, Double minBid, Double buyItNow, boolean condition, String auctionEndDate, Double shippingIncluded, int returns, String description, String owner){
@@ -52,6 +50,8 @@ public class Product {
         this.description = description;
         this.owner = owner;
         this.expired = false;
+        counter++;
+        this.productNumber = counter;
     }
 
     synchronized public String bid(double bidValue, String Bidder){
@@ -84,6 +84,11 @@ public class Product {
         System.out.println("currentHighestBidder: " + currentHighestBidder);
         System.out.println("owner: " + owner);
         System.out.println("expired: " + expired);
+    }
+
+    @Override
+    public String toString(){
+        return("product name: " + productName + "\ncurrentBid: " + currentBid +"\nbuyItNow: " + buyItNow+"\nbids: " + bids+"\ncondition: " + condition+"\nauctionEndDate: " + auctionEndDate+"\nshippingIncluded: " + shippingIncluded+"\nreturns: " + returns+"\ndescription: " + description+"\ncurrentHighestBidder: " + currentHighestBidder+"\nowner: " + owner+"\nexpired: " + expired);
     }
 
 }
