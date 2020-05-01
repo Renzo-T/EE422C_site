@@ -31,5 +31,6 @@ public class tester {
 
         account1.newProduct(tiName, timinBid, tibuyItNow, tiCondtiion, tiAuctionEndDate, tishippingIncluded, tireturns, tidescription);
         account1.currentListings.get(0).debug();
+        System.out.println(account1.currentListings.get(0).timeLeft());
     }
 }

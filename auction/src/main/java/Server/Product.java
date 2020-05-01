@@ -1,5 +1,13 @@
 package Server;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
+
 public class Product {
     //image?
 
@@ -10,7 +18,6 @@ public class Product {
     private String condition;
     private String auctionEndDate;
     private String shippingIncluded;
-    private Double shipping;
     private String returns;
     private String description;
     private String currentHighestBidder; //user id
@@ -19,7 +26,17 @@ public class Product {
 
 
     public String timeLeft(){
-        return null;
+        if(expired){return null;}
+        DateTimeFormatter fmt = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+        Instant event = fmt.parse(this.auctionEndDate, Instant::from);
+        Instant now = Instant.now().minus(5, ChronoUnit.HOURS);
+        System.out.println(now);
+        Duration diff = Duration.between(now,event);
+        long days = diff.toDays();
+        long hours = diff.toHours()-24*diff.toDays();
+        long minutes = diff.toMinutes()-60*diff.toHours();
+        long seconds = diff.getSeconds()-60*diff.toMinutes();
+        return Long.toString(days) + "days " + Long.toString(hours) + "hours " + Long.toString(minutes) + "minutes " + Long.toString(seconds) + "seconds";
     }
 
     public Product(String productName, Double minBid, Double buyItNow, boolean condition, String auctionEndDate, Double shippingIncluded, int returns, String description, String owner){
@@ -57,15 +74,15 @@ public class Product {
     public void debug(){
         System.out.println("product name: " + productName);
         System.out.println("currentBid: " + currentBid);
-        System.out.println("buyItNow :" + buyItNow);
-        System.out.println("bids :" + bids);
-        System.out.println("condition :" + condition);
-        System.out.println("auctionEndDate :" + auctionEndDate);
-        System.out.println("shippingIncluded :" + shippingIncluded);
-        System.out.println("returns :" + returns);
-        System.out.println("description :" + description);
-        System.out.println("currentHighestBidder :" + currentHighestBidder);
-        System.out.println("owner :" + owner);
+        System.out.println("buyItNow: " + buyItNow);
+        System.out.println("bids: " + bids);
+        System.out.println("condition: " + condition);
+        System.out.println("auctionEndDate: " + auctionEndDate);
+        System.out.println("shippingIncluded: " + shippingIncluded);
+        System.out.println("returns: " + returns);
+        System.out.println("description: " + description);
+        System.out.println("currentHighestBidder: " + currentHighestBidder);
+        System.out.println("owner: " + owner);
         System.out.println("expired: " + expired);
     }
 

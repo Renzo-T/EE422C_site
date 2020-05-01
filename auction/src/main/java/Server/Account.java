@@ -16,6 +16,9 @@ public class Account {
         this.password = password;
         this.rating = 0.00;
         this.email = email;
+        reviews = new ArrayList<String>();
+        soldExpired = new ArrayList<Product>();
+        currentListings = new ArrayList<Product>();
     }
 
     public void newProduct(String productName, Double minBid, Double buyItNow, boolean condition, String auctionEndDate, Double shippingIncluded, int returns, String description){
